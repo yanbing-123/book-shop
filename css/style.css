@@ -91,11 +91,20 @@ body {
 .product-card.out-of-stock { opacity: 0.6; }
 
 .card-cover {
+  position: relative;
   font-size: 3.2rem; display: flex; align-items: center; justify-content: center;
   height: 100px; background: linear-gradient(135deg, #FDF6E3, #E8DCC8);
   border-bottom: 1px solid #E8DCC8;
   color: var(--primary);
 }
+
+.fav-toggle {
+  position: absolute; top: 6px; right: 8px;
+  font-size: 1.3rem; cursor: pointer; z-index: 2;
+  color: #c0392b; transition: transform 0.2s;
+  line-height: 1; user-select: none;
+}
+.fav-toggle:hover { transform: scale(1.25); }
 
 .card-body { padding: 14px 14px 12px; }
 .card-cat {

@@ -17,15 +17,17 @@
 
   const LS_STOCK = 'book_stock';
   const LS_CART  = 'book_cart';
+  const LS_FAVORITES = 'book_favorites';
 
   let stockData = {};
   let cartData  = [];
   let currentCategory = 'all';
   let lastOrderSnapshot = [];
+  let favoriteIds = [];
 
   // ===== 初始化 =====
   function init() {
-    loadStock(); loadCart(); renderProducts(); updateCartBadge(); updateCartSidebar();
+    loadStock(); loadCart(); loadFavorites(); renderProducts(); updateCartBadge(); updateCartSidebar();
   }
 
   // ===== 库存 =====
@@ -40,6 +42,20 @@
   }
 
   function saveStock() { localStorage.setItem(LS_STOCK, JSON.stringify(stockData)); }
+
+  // ===== 收藏夹 =====
+  function loadFavorites() {
+    const saved = localStorage.getItem(LS_FAVORITES);
+    if (saved) favoriteIds = JSON.parse(saved);
+  }
+  function saveFavorites() { localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteIds)); }
+  function isFavorite(id) { return favoriteIds.includes(id); }
+  function toggleFavorite(id) {
+    const idx = favoriteIds.indexOf(id);
+    if (idx >= 0) { favoriteIds.splice(idx, 1); }
+    else          { favoriteIds.push(id); }
+    saveFavorites(); renderProducts();
+  }
 
   // ===== 购物车 =====
   function loadCart() {
@@ -62,7 +78,12 @@
       const stock = stockData[p.id] ?? p.stock;
       const outOfStock = stock <= 0;
       const isLow = stock > 0 && stock <= 5;
-      const show = currentCategory === 'all' || p.category === currentCategory;
+      let show;
+      if (currentCategory === 'favorites') {
+        show = favoriteIds.includes(p.id);
+      } else {
+        show = currentCategory === 'all' || p.category === currentCategory;
+      }
       if (!show) return;
 
       let stockClass = '';
@@ -73,7 +94,10 @@
       const div = document.createElement('div');
       div.className = 'product-card' + (outOfStock ? ' out-of-stock' : '');
       div.innerHTML = `
-        <div class="card-cover">${p.emoji}</div>
+        <div class="card-cover">
+          ${p.emoji}
+          <span class="fav-toggle ${isFavorite(p.id) ? 'active' : ''}" onclick="window._book.toggleFavorite(${p.id})">${isFavorite(p.id) ? '♥' : '♡'}</span>
+        </div>
         <div class="card-body">
           <span class="card-cat ${p.category}">${p.category}</span>
           <div class="card-name">${p.name}</div>
@@ -286,7 +310,7 @@
   }
 
   // ===== 暴露关键函数到 window =====
-  window._book = { addToCart, updateQuantity, removeFromCart, clearCart, toggleCart, openCheckout, closeCheckout, submitOrder, closeSuccess, filterByCategory };
+  window._book = { addToCart, updateQuantity, removeFromCart, clearCart, toggleCart, openCheckout, closeCheckout, submitOrder, closeSuccess, filterByCategory, toggleFavorite };
 
   init();
 
