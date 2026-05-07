@@ -22,6 +22,7 @@
   let stockData = {};
   let cartData  = [];
   let currentCategory = 'all';
+  let searchQuery = '';
   let lastOrderSnapshot = [];
   let favoriteIds = [];
 
@@ -84,6 +85,9 @@
       } else {
         show = currentCategory === 'all' || p.category === currentCategory;
       }
+      if (searchQuery) {
+        show = show && p.name.includes(searchQuery);
+      }
       if (!show) return;
 
       let stockClass = '';
@@ -118,6 +122,12 @@
     document.querySelectorAll('.type-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.cat === cat || (cat === 'all' && btn.dataset.cat === 'all'));
     });
+    renderProducts();
+  }
+
+  // ===== 搜索 =====
+  function searchBooks(query) {
+    searchQuery = query.trim();
     renderProducts();
   }
 
@@ -310,7 +320,7 @@
   }
 
   // ===== 暴露关键函数到 window =====
-  window._book = { addToCart, updateQuantity, removeFromCart, clearCart, toggleCart, openCheckout, closeCheckout, submitOrder, closeSuccess, filterByCategory, toggleFavorite };
+  window._book = { addToCart, updateQuantity, removeFromCart, clearCart, toggleCart, openCheckout, closeCheckout, submitOrder, closeSuccess, filterByCategory, toggleFavorite, searchBooks };
 
   init();
 
