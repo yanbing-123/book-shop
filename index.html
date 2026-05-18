@@ -30,6 +30,31 @@
       <button class="type-btn" data-cat="儿童" onclick="window._book.filterByCategory('儿童')">📖 儿童</button>
       <button class="type-btn" data-cat="历史" onclick="window._book.filterByCategory('历史')">📘 历史</button>
       <button class="type-btn" data-cat="社科" onclick="window._book.filterByCategory('社科')">📘 社科</button>
+      <button class="search-toggle-btn" onclick="window._book.toggleSearch()" title="搜索 (Ctrl+F)">🔍</button>
+    </div>
+  </div>
+
+  <!-- 搜索与高级筛选 -->
+  <div class="search-bar" id="searchBar">
+    <div class="container search-inner">
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="搜索书名或作者..." />
+        <button class="search-clear" id="searchClear" onclick="window._book.clearSearch()">✕</button>
+      </div>
+      <div class="filter-row">
+        <div class="price-range">
+          <input type="number" class="price-input" id="priceMin" placeholder="最低价" min="0" />
+          <span class="price-sep">—</span>
+          <input type="number" class="price-input" id="priceMax" placeholder="最高价" min="0" />
+        </div>
+        <select class="sort-select" id="sortSelect">
+          <option value="default">默认排序</option>
+          <option value="price-asc">价格从低到高</option>
+          <option value="price-desc">价格从高到低</option>
+          <option value="name">书名 A-Z</option>
+          <option value="stock">库存从多到少</option>
+        </select>
+      </div>
     </div>
   </div>
 
