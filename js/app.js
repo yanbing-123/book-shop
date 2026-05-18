@@ -21,6 +21,11 @@
   var stockData = {};
   var cartData  = [];
   var currentCategory = 'all';
+  var searchKeyword = '';
+  var priceMin = '';
+  var priceMax = '';
+  var sortBy = 'default';
+  var searchVisible = false;
   var lastOrderSnapshot = [];
 
   // ===== 初始化 =====
@@ -30,6 +35,18 @@
     renderProducts();
     updateCartBadge();
     updateCartSidebar();
+    // 搜索与筛选事件
+    document.getElementById('searchInput').addEventListener('input', handleSearchInput);
+    document.getElementById('priceMin').addEventListener('input', doPriceFilter);
+    document.getElementById('priceMax').addEventListener('input', doPriceFilter);
+    document.getElementById('sortSelect').addEventListener('change', function() { doSort(this.value); });
+    // Ctrl+F 快捷键展开搜索
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && (e.key === 'f' || e.key === 'F')) {
+        e.preventDefault();
+        toggleSearch();
+      }
+    });
   }
 
   // ===== 库存 =====
@@ -44,6 +61,16 @@
   }
 
   function saveStock() { localStorage.setItem(LS_STOCK, JSON.stringify(stockData)); }
+
+  function debounce(fn, delay) {
+    var timer = null;
+    return function() {
+      var args = arguments;
+      var ctx = this;
+      clearTimeout(timer);
+      timer = setTimeout(function() { fn.apply(ctx, args); }, delay);
+    };
+  }
 
   // ===== 购物车 =====
   function loadCart() {
@@ -62,12 +89,54 @@
     var grid = document.getElementById('productGrid');
     grid.innerHTML = '';
 
-    PRODUCTS.forEach(function(p) {
+    var filtered = PRODUCTS.filter(function(p) {
+      // 分类筛选
+      if (currentCategory !== 'all' && p.category !== currentCategory) return false;
+      // 关键词搜索（书名 + 作者，不区分大小写）
+      if (searchKeyword) {
+        var kw = searchKeyword.toLowerCase();
+        if (p.name.toLowerCase().indexOf(kw) === -1 && p.author.toLowerCase().indexOf(kw) === -1) return false;
+      }
+      // 价格区间
+      if (priceMin !== '') {
+        var mn = parseFloat(priceMin);
+        if (!isNaN(mn) && p.price < mn) return false;
+      }
+      if (priceMax !== '') {
+        var mx = parseFloat(priceMax);
+        if (!isNaN(mx) && p.price > mx) return false;
+      }
+      return true;
+    });
+
+    // 排序
+    if (sortBy === 'price-asc') {
+      filtered.sort(function(a, b) { return a.price - b.price; });
+    } else if (sortBy === 'price-desc') {
+      filtered.sort(function(a, b) { return b.price - a.price; });
+    } else if (sortBy === 'name') {
+      filtered.sort(function(a, b) { return a.name.localeCompare(b.name, 'zh-CN'); });
+    } else if (sortBy === 'stock') {
+      filtered.sort(function(a, b) {
+        var sa = stockData[a.id] !== undefined ? stockData[a.id] : a.stock;
+        var sb = stockData[b.id] !== undefined ? stockData[b.id] : b.stock;
+        return sb - sa;
+      });
+    }
+
+    // 空状态
+    if (filtered.length === 0) {
+      var emptyEl = document.createElement('div');
+      emptyEl.className = 'empty-state';
+      emptyEl.innerHTML = '<div class="empty-state-icon">🔍</div><div class="empty-state-text">没有找到符合条件的书籍，试试调整搜索条件吧</div>';
+      grid.appendChild(emptyEl);
+      return;
+    }
+
+    filtered.forEach(function(p) {
       var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
       var outOfStock = stock <= 0;
       var isLow = stock > 0 && stock <= 5;
-      var show = currentCategory === 'all' || p.category === currentCategory;
-      if (!show) return;
 
       var stockClass = '';
       var stockText = '库存：' + stock + '册';
@@ -100,6 +169,55 @@
       if (isActive) btn.classList.add('active'); else btn.classList.remove('active');
     });
     renderProducts();
+  }
+
+  // ===== 搜索与高级筛选 =====
+  var handleSearchInput = debounce(function() {
+    var input = document.getElementById('searchInput');
+    searchKeyword = input.value.trim();
+    var clearBtn = document.getElementById('searchClear');
+    if (input.value) clearBtn.classList.add('show'); else clearBtn.classList.remove('show');
+    renderProducts();
+  }, 300);
+
+  function doPriceFilter() {
+    priceMin = document.getElementById('priceMin').value;
+    priceMax = document.getElementById('priceMax').value;
+    renderProducts();
+  }
+
+  function doSort(value) {
+    sortBy = value;
+    renderProducts();
+  }
+
+  function toggleSearch() {
+    if (searchVisible) {
+      searchVisible = false;
+      searchKeyword = '';
+      priceMin = '';
+      priceMax = '';
+      sortBy = 'default';
+      document.getElementById('searchBar').classList.remove('show');
+      document.getElementById('searchInput').value = '';
+      document.getElementById('priceMin').value = '';
+      document.getElementById('priceMax').value = '';
+      document.getElementById('sortSelect').value = 'default';
+      document.getElementById('searchClear').classList.remove('show');
+      renderProducts();
+    } else {
+      searchVisible = true;
+      document.getElementById('searchBar').classList.add('show');
+      setTimeout(function() { document.getElementById('searchInput').focus(); }, 100);
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    searchKeyword = '';
+    document.getElementById('searchClear').classList.remove('show');
+    renderProducts();
+    document.getElementById('searchInput').focus();
   }
 
   // ===== 购物车操作 =====
@@ -335,7 +453,11 @@
     closeCheckout: closeCheckout,
     submitOrder: submitOrder,
     closeSuccess: closeSuccess,
-    filterByCategory: filterByCategory
+    filterByCategory: filterByCategory,
+    toggleSearch: toggleSearch,
+    clearSearch: clearSearch,
+    doSort: doSort,
+    doPriceFilter: doPriceFilter
   };
 
   init();
