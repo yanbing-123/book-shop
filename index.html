@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>书虫书店</title>
+  <title>📚 书虫书店</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,11 +11,17 @@
   <!-- Header -->
   <header class="header">
     <div class="container header-inner">
-      <h1 class="logo">📚 书虫书店</h1>
-      <button class="cart-btn" onclick="window._book.toggleCart()">
-        🛒 购物车
-        <span class="cart-badge" id="cartBadge">0</span>
-      </button>
+      <h1 class="logo" onclick="window._book.filterByCategory('all')">📚 书虫书店</h1>
+      <div class="auth-header" id="authContainer"></div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="window._book.toggleWishlist()" title="收藏夹">
+          ❤️ <span class="wishlist-badge" id="wishlistBadge">0</span>
+        </button>
+        <button class="cart-btn" onclick="window._book.toggleCart()">
+          🛒 购物车
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -30,6 +36,7 @@
       <button class="type-btn" data-cat="儿童" onclick="window._book.filterByCategory('儿童')">📖 儿童</button>
       <button class="type-btn" data-cat="历史" onclick="window._book.filterByCategory('历史')">📘 历史</button>
       <button class="type-btn" data-cat="社科" onclick="window._book.filterByCategory('社科')">📘 社科</button>
+      <button class="type-btn" data-cat="fav" onclick="window._book.filterByCategory('fav')">❤️ 收藏</button>
       <button class="search-toggle-btn" onclick="window._book.toggleSearch()" title="搜索 (Ctrl+F)">🔍</button>
     </div>
   </div>
@@ -58,6 +65,9 @@
     </div>
   </div>
 
+  <!-- Specials Banner -->
+  <div class="specials-banner" id="specialsBanner"></div>
+
   <!-- 商品列表 -->
   <main class="container">
     <div class="product-grid" id="productGrid"></div>
@@ -83,6 +93,18 @@
     </div>
   </aside>
 
+  <!-- 收藏夹遮罩 -->
+  <div class="cart-overlay" id="wishlistOverlay" onclick="window._book.toggleWishlist()"></div>
+
+  <!-- 收藏夹侧边栏 -->
+  <aside class="cart-sidebar" id="wishlistSidebar">
+    <div class="cart-header">
+      <h3>❤️ 我的收藏夹</h3>
+      <button class="cart-close" onclick="window._book.toggleWishlist()">✕</button>
+    </div>
+    <div class="cart-items" id="wishlistItems"></div>
+  </aside>
+
   <!-- 结算弹窗 -->
   <div class="modal-overlay" id="modalOverlay" onclick="window._book.closeCheckout()"></div>
   <div class="modal checkout-modal" id="checkoutModal">
@@ -106,8 +128,20 @@
         <textarea id="userAddress" placeholder="请输入详细收货地址" rows="2" maxlength="100"></textarea>
         <span class="error-msg" id="errorAddress"></span>
       </div>
+      <!-- 商品定制 -->
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="giftWrapCheck" onchange="window._book.toggleGiftWrap()"> 🎁 礼品包装 <span class="gift-wrap-fee">（+¥5.00）</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="orderNote">订单备注</label>
+        <textarea id="orderNote" placeholder="如有特殊要求请在此备注..." rows="2" maxlength="200"></textarea>
+      </div>
       <div class="form-summary">
         <p>共 <strong id="summaryCount">0</strong> 件商品，合计：<strong id="summaryTotal">¥0.00</strong></p>
+        <p class="summary-gift" id="summaryGift" style="display:none">礼品包装：<strong>+¥5.00</strong></p>
+        <p class="summary-final">总计：<strong id="summaryGrandTotal">¥0.00</strong></p>
       </div>
       <button type="submit" class="btn-submit">确认提交订单</button>
     </form>
@@ -122,6 +156,154 @@
     <div class="order-items" id="orderItems"></div>
     <p class="success-tip">感谢您的惠顾，书香将伴您前行！</p>
     <button class="btn-submit" onclick="window._book.closeSuccess()">继续阅读</button>
+  </div>
+
+  <!-- ===== Order History Modal ===== -->
+  <div class="modal-overlay" id="orderHistoryOverlay" onclick="window._book.closeOrderHistory()"></div>
+  <div class="modal order-history-modal" id="orderHistoryModal">
+    <div class="modal-header">
+      <h3>📋 我的订单</h3>
+      <button class="modal-close" onclick="window._book.closeOrderHistory()">✕</button>
+    </div>
+    <div class="order-history-list" id="orderHistoryList"></div>
+  </div>
+
+  <!-- ===== Profile Modal ===== -->
+  <div class="modal-overlay" id="profileOverlay" onclick="window._book.closeProfile()"></div>
+  <div class="modal auth-modal" id="profileModal">
+    <div class="modal-header">
+      <h3>👤 个人资料</h3>
+      <button class="modal-close" onclick="window._book.closeProfile()">✕</button>
+    </div>
+    <form class="auth-form" id="profileForm" onsubmit="window._book.submitProfile(event)">
+      <div class="form-group">
+        <label for="profileName">姓名 <span class="required">*</span></label>
+        <input type="text" id="profileName" placeholder="请输入收货人姓名" maxlength="20">
+      </div>
+      <div class="form-group">
+        <label for="profilePhone">手机号</label>
+        <input type="tel" id="profilePhone" placeholder="请输入11位手机号" maxlength="11">
+      </div>
+      <div class="form-group">
+        <label for="profileAddress">默认收货地址</label>
+        <textarea id="profileAddress" placeholder="请输入默认收货地址" rows="2" maxlength="100"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">保存资料</button>
+    </form>
+  </div>
+
+  <!-- ===== Login Modal ===== -->
+  <div class="modal-overlay" id="loginOverlay" onclick="window._book.closeLogin()"></div>
+  <div class="modal auth-modal" id="loginModal">
+    <div class="modal-header">
+      <h3>🔑 登录</h3>
+      <button class="modal-close" onclick="window._book.closeLogin()">✕</button>
+    </div>
+    <form class="auth-form" id="loginForm" onsubmit="window._book.submitLogin(event)">
+      <div class="form-group">
+        <label for="loginUsername">用户名 <span class="required">*</span></label>
+        <input type="text" id="loginUsername" placeholder="请输入用户名" maxlength="20" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">密码 <span class="required">*</span></label>
+        <input type="password" id="loginPassword" placeholder="请输入密码" maxlength="30" required>
+      </div>
+      <button type="submit" class="btn-submit">登录</button>
+      <p class="auth-switch">
+        还没有账号？<a href="javascript:void(0)" onclick="window._book.closeLogin();window._book.openRegister()">立即注册</a>
+      </p>
+    </form>
+  </div>
+
+  <!-- ===== Register Modal ===== -->
+  <div class="modal-overlay" id="registerOverlay" onclick="window._book.closeRegister()"></div>
+  <div class="modal auth-modal" id="registerModal">
+    <div class="modal-header">
+      <h3>📝 注册</h3>
+      <button class="modal-close" onclick="window._book.closeRegister()">✕</button>
+    </div>
+    <form class="auth-form" id="registerForm" onsubmit="window._book.submitRegister(event)">
+      <div class="form-group">
+        <label for="regUsername">用户名 <span class="required">*</span></label>
+        <input type="text" id="regUsername" placeholder="请输入用户名（至少2个字符）" maxlength="20" required>
+      </div>
+      <div class="form-group">
+        <label for="regPassword">密码 <span class="required">*</span></label>
+        <input type="password" id="regPassword" placeholder="请输入密码（至少6个字符）" maxlength="30" required>
+      </div>
+      <div class="form-group">
+        <label for="regConfirmPassword">确认密码 <span class="required">*</span></label>
+        <input type="password" id="regConfirmPassword" placeholder="请再次输入密码" maxlength="30" required>
+      </div>
+      <button type="submit" class="btn-submit">注册</button>
+      <p class="auth-switch">
+        已有账号？<a href="javascript:void(0)" onclick="window._book.closeRegister();window._book.openLogin()">立即登录</a>
+      </p>
+    </form>
+  </div>
+
+  <!-- ===== Staff Login Modal ===== -->
+  <div class="modal-overlay" id="staffLoginOverlay" onclick="window._book.closeStaffLogin()"></div>
+  <div class="modal auth-modal" id="staffLoginModal">
+    <div class="modal-header">
+      <h3>🔧 员工登录</h3>
+      <button class="modal-close" onclick="window._book.closeStaffLogin()">✕</button>
+    </div>
+    <form class="auth-form" onsubmit="window._book.submitStaffLogin(event)">
+      <div class="form-group">
+        <label for="staffLoginPwd">员工密码 <span class="required">*</span></label>
+        <input type="password" id="staffLoginPwd" placeholder="请输入员工密码" maxlength="30">
+      </div>
+      <button type="submit" class="btn-submit">登录</button>
+    </form>
+  </div>
+
+  <!-- ===== Staff Dashboard Modal ===== -->
+  <div class="modal-overlay" id="staffDashboardOverlay" onclick="window._book.closeStaffDashboard()"></div>
+  <div class="modal staff-dashboard-modal" id="staffDashboardModal">
+    <div class="modal-header">
+      <h3>📊 员工管理台</h3>
+      <button class="modal-close" onclick="window._book.closeStaffDashboard()">✕</button>
+    </div>
+    <div class="staff-order-list" id="staffOrderList"></div>
+  </div>
+
+  <!-- ===== Stock Management Modal ===== -->
+  <div class="modal-overlay" id="stockOverlay" onclick="window._book.closeStockManager()"></div>
+  <div class="modal stock-modal" id="stockModal">
+    <div class="modal-header">
+      <h3>📦 库存管理</h3>
+      <button class="modal-close" onclick="window._book.closeStockManager()">✕</button>
+    </div>
+    <div class="stock-list" id="stockList"></div>
+  </div>
+
+  <!-- ===== Specials Management Modal ===== -->
+  <div class="modal-overlay" id="specialsOverlay" onclick="window._book.closeSpecialsManager()"></div>
+  <div class="modal specials-modal" id="specialsModal">
+    <div class="modal-header">
+      <h3>🏷️ 特价管理</h3>
+      <button class="modal-close" onclick="window._book.closeSpecialsManager()">✕</button>
+    </div>
+    <div class="specials-manager-list" id="specialsManagerList"></div>
+    <div class="specials-add-form">
+      <h4>添加特价</h4>
+      <select id="specialsProduct" class="sort-select"><option value="">-- 选择商品 --</option></select>
+      <select id="specialsType" class="sort-select">
+        <option value="">-- 类型 --</option>
+        <option value="discount">打折 (如 8 折)</option>
+        <option value="fixed">直降 (减固定金额)</option>
+      </select>
+      <input type="number" id="specialsValue" class="search-input" placeholder="折扣/金额" min="0.1" step="0.1" style="width:100px">
+      <button class="oh-reorder" onclick="window._book.addSpecial()">添加</button>
+    </div>
+  </div>
+
+  <!-- ===== 书籍详情弹窗 ===== -->
+  <div class="modal-overlay" id="detailOverlay" onclick="window._book.closeDetail()"></div>
+  <div class="modal detail-modal" id="detailModal">
+    <button class="modal-close detail-close-btn" onclick="window._book.closeDetail()">✕</button>
+    <div id="detailContent"></div>
   </div>
 
   <script src="js/app.js"></script>
