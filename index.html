@@ -15,7 +15,7 @@
       <div class="auth-header" id="authContainer"></div>
       <div class="header-actions">
         <button class="header-btn" onclick="window._book.toggleWishlist()" title="收藏夹">
-          ❤️ <span class="wishlist-badge" id="wishlistBadge">0</span>
+          ❤️ 收藏夹 <span class="wishlist-badge" id="wishlistBadge">0</span>
         </button>
         <button class="cart-btn" onclick="window._book.toggleCart()">
           🛒 购物车
@@ -155,6 +155,7 @@
     <p class="order-no" id="orderNo">订单编号：—</p>
     <div class="order-items" id="orderItems"></div>
     <p class="success-tip">感谢您的惠顾，书香将伴您前行！</p>
+    <div id="successActions" style="display:none"></div>
     <button class="btn-submit" onclick="window._book.closeSuccess()">继续阅读</button>
   </div>
 
@@ -163,6 +164,7 @@
   <div class="modal order-history-modal" id="orderHistoryModal">
     <div class="modal-header">
       <h3>📋 我的订单</h3>
+      <button class="btn-clear-history" onclick="window._book.clearOrders()">清空</button>
       <button class="modal-close" onclick="window._book.closeOrderHistory()">✕</button>
     </div>
     <div class="order-history-list" id="orderHistoryList"></div>
@@ -297,6 +299,122 @@
       <input type="number" id="specialsValue" class="search-input" placeholder="折扣/金额" min="0.1" step="0.1" style="width:100px">
       <button class="oh-reorder" onclick="window._book.addSpecial()">添加</button>
     </div>
+  </div>
+
+  <!-- ===== Admin Login Modal ===== -->
+  <div class="modal-overlay" id="adminLoginOverlay" onclick="window._book.closeAdminLogin()"></div>
+  <div class="modal auth-modal" id="adminLoginModal">
+    <div class="modal-header">
+      <h3>🔐 管理员登录</h3>
+      <button class="modal-close" onclick="window._book.closeAdminLogin()">✕</button>
+    </div>
+    <form class="auth-form" onsubmit="window._book.submitAdminLogin(event)">
+      <div class="form-group">
+        <label>管理员密码 <span class="required">*</span></label>
+        <input type="password" id="adminPassword" placeholder="请输入管理员密码" maxlength="30">
+      </div>
+      <button type="submit" class="btn-submit">登录</button>
+    </form>
+  </div>
+
+  <!-- ===== Admin Dashboard Modal ===== -->
+  <div class="modal-overlay" id="adminOverlay" onclick="window._book.closeAdmin()"></div>
+  <div class="modal admin-modal" id="adminModal">
+    <div class="modal-header">
+      <h3>⚙️ 后台管理</h3>
+      <button class="modal-close" onclick="window._book.closeAdmin()">✕</button>
+    </div>
+    <div class="admin-toolbar">
+      <button class="oh-reorder" onclick="window._book.openAddProduct()">➕ 添加书籍</button>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="adminTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>封面</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>分类</th>
+            <th>价格</th>
+            <th>库存</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== Add/Edit Product Modal ===== -->
+  <div class="modal-overlay" id="productFormOverlay" onclick="window._book.closeProductForm()"></div>
+  <div class="modal product-form-modal" id="productFormModal">
+    <div class="modal-header">
+      <h3 id="productFormTitle">📖 添加书籍</h3>
+      <button class="modal-close" onclick="window._book.closeProductForm()">✕</button>
+    </div>
+    <form class="auth-form" id="productForm" onsubmit="window._book.submitProductForm(event)">
+      <input type="hidden" id="productFormId" value="">
+      <div class="form-group">
+        <label>书名 <span class="required">*</span></label>
+        <input type="text" id="pfName" placeholder="请输入书名" required>
+      </div>
+      <div class="form-group">
+        <label>作者 <span class="required">*</span></label>
+        <input type="text" id="pfAuthor" placeholder="请输入作者" required>
+      </div>
+      <div class="form-group">
+        <label>分类 <span class="required">*</span></label>
+        <select id="pfCategory" class="sort-select" style="width:100%">
+          <option value="文学">文学</option>
+          <option value="小说">小说</option>
+          <option value="科幻">科幻</option>
+          <option value="科技">科技</option>
+          <option value="儿童">儿童</option>
+          <option value="历史">历史</option>
+          <option value="社科">社科</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>价格 (¥) <span class="required">*</span></label>
+          <input type="number" id="pfPrice" placeholder="59.00" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label>库存 <span class="required">*</span></label>
+          <input type="number" id="pfStock" placeholder="30" min="0" step="1" required>
+        </div>
+        <div class="form-group">
+          <label>封面</label>
+          <input type="text" id="pfEmoji" placeholder="📕" maxlength="2">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>书籍描述</label>
+        <textarea id="pfDescription" placeholder="请输入书籍简介" rows="2" maxlength="500"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>出版社</label>
+          <input type="text" id="pfPublisher" placeholder="出版社" maxlength="50">
+        </div>
+        <div class="form-group">
+          <label>出版年份</label>
+          <input type="number" id="pfPublishYear" placeholder="2024" min="1900" max="2026">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>ISBN</label>
+          <input type="text" id="pfIsbn" placeholder="9787020002207" maxlength="13">
+        </div>
+        <div class="form-group">
+          <label>页数</label>
+          <input type="number" id="pfPages" placeholder="300" min="1">
+        </div>
+      </div>
+      <button type="submit" class="btn-submit" id="productFormSubmit">保存</button>
+    </form>
   </div>
 
   <!-- ===== 书籍详情弹窗 ===== -->

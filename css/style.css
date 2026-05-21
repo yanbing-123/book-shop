@@ -178,6 +178,7 @@ body {
 .card-stock { font-size: 0.78rem; color: var(--text-light); margin-bottom: 12px; }
 .card-stock.empty { color: #c0392b; font-weight: 600; }
 .card-stock.low { color: #e67e22; }
+.cart-item-info .card-stock.empty { margin: 2px 0 0; padding: 0; }
 
 .btn-add {
   width: 100%; padding: 9px 0; border: none; border-radius: 20px;
@@ -424,8 +425,10 @@ body {
 
 /* ===== Book Detail Modal ===== */
 .detail-modal {
-  width: 520px; max-height: 88vh; padding: 0;
-  overflow: hidden;
+  width: 580px; max-height: 88vh; padding: 0;
+}
+#detailContent {
+  max-height: 88vh; overflow-y: auto;
 }
 .detail-close-btn {
   position: absolute; top: 12px; right: 12px; z-index: 10;
@@ -503,6 +506,13 @@ body {
 /* ===== Order History Modal ===== */
 .order-history-modal { width: 520px; max-height: 85vh; }
 .order-history-list { max-height: 60vh; overflow-y: auto; }
+.btn-clear-history {
+  padding: 4px 12px; border: 1px solid rgba(253,246,227,0.4);
+  border-radius: 12px; background: rgba(253,246,227,0.15);
+  color: #FDF6E3; font-size: 0.72rem; cursor: pointer;
+  transition: 0.2s; font-family: inherit;
+}
+.btn-clear-history:hover { background: rgba(231,76,60,0.6); border-color: #e74c3c; }
 .order-history-card {
   border: 1px solid var(--border); border-radius: var(--radius);
   padding: 14px 16px; margin-bottom: 12px;
@@ -627,6 +637,168 @@ body {
 /* ===== Modal base overrides for new modals ===== */
 .drawer-empty { text-align: center; color: var(--text-light); padding: 60px 20px; font-size: 0.9rem; }
 
+/* ===== Card Rating ===== */
+.card-rating { margin-bottom: 8px; min-height: 1.2em; }
+.card-rating .stars-display { color: #f39c12; font-size: 0.82rem; letter-spacing: 1px; }
+.card-rating .rating-text { font-size: 0.72rem; color: var(--text-light); margin-left: 2px; }
+.card-rating .no-rating { font-size: 0.72rem; color: #bcaaa4; }
+
+/* ===== Detail Modal Reviews Section ===== */
+.detail-reviews-section {
+  border-top: 1px solid var(--border);
+  padding: 16px 24px 20px;
+  background: #FAF3E3;
+}
+.reviews-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px; font-size: 0.92rem; font-weight: 700;
+}
+.review-count { font-size: 0.78rem; font-weight: 400; color: var(--text-light); }
+.write-review-btn {
+  padding: 5px 14px; border: none; border-radius: 14px;
+  background: var(--primary); color: #FDF6E3; font-size: 0.78rem;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.write-review-btn:hover { background: var(--primary-dark); }
+
+/* ===== Reviews Summary ===== */
+.reviews-summary {
+  display: flex; gap: 16px; align-items: flex-start;
+  margin-bottom: 14px; padding: 12px; background: var(--card-bg);
+  border-radius: var(--radius); border: 1px solid var(--border);
+}
+.avg-rating { text-align: center; min-width: 64px; }
+.avg-number { font-size: 2rem; font-weight: 700; color: var(--primary); display: block; line-height: 1; }
+.avg-label { font-size: 0.68rem; color: var(--text-light); }
+.star-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.star-bar { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; }
+.star-bar-label { min-width: 28px; color: var(--text-light); text-align: right; }
+.star-bar-track { flex: 1; height: 8px; background: #E8DCC8; border-radius: 4px; overflow: hidden; }
+.star-bar-fill { height: 100%; background: #f39c12; border-radius: 4px; transition: width 0.3s; }
+.star-bar-count { min-width: 20px; color: var(--text-light); text-align: left; }
+
+/* ===== Reviews List ===== */
+.reviews-list { max-height: 260px; overflow-y: auto; margin-bottom: 12px; }
+.no-reviews { text-align: center; color: var(--text-light); font-size: 0.82rem; padding: 20px 0; }
+.review-item {
+  padding: 10px 12px; margin-bottom: 8px;
+  background: var(--card-bg); border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.review-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+.review-stars { color: #f39c12; font-size: 0.82rem; letter-spacing: 1px; }
+.review-author { font-size: 0.72rem; color: var(--text-light); }
+.review-date { font-size: 0.68rem; color: #bcaaa4; margin-left: auto; }
+.review-text { font-size: 0.82rem; color: var(--text); line-height: 1.6; }
+
+/* ===== Review Form ===== */
+.review-form {
+  background: var(--card-bg); border-radius: var(--radius);
+  padding: 14px; border: 1px solid var(--border);
+}
+.star-selector {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 4px; margin-bottom: 10px;
+}
+.star-selector .star {
+  font-size: 1.8rem; cursor: pointer; color: #ddd;
+  transition: color 0.15s; user-select: none;
+}
+.star-selector .star:hover,
+.star-selector .star:hover ~ .star {
+  color: #f39c12;
+}
+.star-selector .star.active {
+  color: #f39c12;
+}
+.review-form textarea {
+  width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 0.85rem; font-family: inherit;
+  resize: vertical; min-height: 70px; max-height: 160px;
+  transition: border-color 0.2s; background: #FDFAF3;
+  box-sizing: border-box;
+}
+.review-form textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
+.review-form-footer {
+  display: flex; align-items: center; gap: 8px; margin-top: 10px;
+}
+.char-counter { font-size: 0.72rem; color: var(--text-light); margin-right: auto; }
+.review-submit-btn {
+  padding: 7px 18px; border: none; border-radius: 16px;
+  background: var(--primary); color: #FDF6E3; font-size: 0.82rem;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.review-submit-btn:hover { background: var(--primary-dark); }
+.dismiss-review-form {
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: 16px;
+  background: var(--card-bg); color: var(--text-light); font-size: 0.78rem;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.dismiss-review-form:hover { border-color: var(--primary); color: var(--text); }
+
+/* ===== Admin Buttons ===== */
+.auth-btn-admin { background: rgba(100,200,100,0.25); border-color: rgba(100,200,100,0.4); }
+.auth-btn-admin:hover { background: rgba(100,200,100,0.4); }
+.auth-btn-admin-login { background: rgba(253,246,227,0.1); border-color: rgba(253,246,227,0.3); font-size: 0.72rem; }
+.auth-btn-admin-login:hover { background: rgba(253,246,227,0.25); }
+
+/* ===== Admin Dashboard Modal ===== */
+.admin-modal { width: 700px; max-height: 88vh; }
+.admin-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+.admin-table-wrap { max-height: 60vh; overflow-y: auto; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.admin-table th {
+  position: sticky; top: 0; background: var(--primary); color: #FDF6E3;
+  padding: 8px 10px; text-align: left; font-size: 0.78rem; font-weight: 600;
+}
+.admin-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.admin-table tr:hover td { background: #FDF6E3; }
+.admin-emoji { font-size: 1.4rem; text-align: center; }
+.admin-stock-input {
+  width: 60px; padding: 4px 6px; border: 1.5px solid var(--border);
+  border-radius: 6px; font-size: 0.82rem; font-family: inherit; text-align: center;
+}
+.admin-stock-input:focus { outline: none; border-color: var(--primary); }
+.admin-actions { display: flex; gap: 6px; }
+.admin-edit-btn, .admin-delete-btn {
+  padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card-bg); cursor: pointer; font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.admin-edit-btn:hover { border-color: var(--primary); background: #FDF6E3; }
+.admin-delete-btn:hover { border-color: #e74c3c; background: #FFF5F5; }
+
+/* ===== Product Form Modal ===== */
+.product-form-modal { width: 520px; max-height: 90vh; }
+.product-form-modal .form-row {
+  display: flex; gap: 12px;
+}
+.product-form-modal .form-row .form-group { flex: 1; }
+.product-form-modal .form-group { margin-bottom: 12px; }
+.product-form-modal label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 5px; }
+.product-form-modal input,
+.product-form-modal textarea,
+.product-form-modal select {
+  width: 100%; padding: 8px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 0.88rem; font-family: inherit;
+  transition: border-color 0.2s; background: #FDFAF3;
+}
+.product-form-modal input:focus,
+.product-form-modal textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
+
+/* ===== Detail modal responsive ===== */
+@media (max-width: 768px) {
+  .detail-modal { width: 94vw; max-width: 94vw; }
+  .detail-hero { padding: 20px 14px 16px; }
+  .detail-body { padding: 14px 16px 18px; }
+  .detail-reviews-section { padding: 12px 14px 16px; }
+  .detail-meta { grid-template-columns: 1fr; }
+  .reviews-summary { flex-direction: column; align-items: center; }
+  .review-form textarea { min-height: 60px; }
+}
+
 @media (max-width: 768px) {
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .card-cover { font-size: 2.6rem; height: 80px; }
@@ -641,6 +813,11 @@ body {
   .staff-dashboard-modal { width: 92vw; }
   .stock-modal { width: 92vw; }
   .specials-modal { width: 92vw; }
+  .admin-modal { width: 94vw; }
+  .product-form-modal { width: 94vw; }
+  .admin-table { font-size: 0.72rem; }
+  .admin-table th, .admin-table td { padding: 6px 6px; }
+  .product-form-modal .form-row { flex-direction: column; gap: 0; }
   .so-header { flex-direction: column; align-items: flex-start; }
 }
 

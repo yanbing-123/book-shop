@@ -3,16 +3,16 @@
 
   // ===== 商品数据 =====
   var PRODUCTS = [
-    { id: 1,  name: '红楼梦',       author: '曹雪芹',               category: '文学', price: 59.00,  stock: 30, emoji: '📕' },
-    { id: 2,  name: '三体',         author: '刘慈欣',               category: '科幻', price: 68.00,  stock: 25, emoji: '📗' },
-    { id: 3,  name: '人类简史',     author: '尤瓦尔·赫拉利',         category: '历史', price: 45.00,  stock: 20, emoji: '📘' },
-    { id: 4,  name: '小王子',       author: '安托万·德·圣-埃克苏佩里', category: '儿童', price: 28.00,  stock: 50, emoji: '📖' },
-    { id: 5,  name: '活着',         author: '余华',                 category: '小说', price: 35.00,  stock: 40, emoji: '📕' },
-    { id: 6,  name: 'Python编程',   author: '埃里克·马瑟斯',           category: '科技', price: 89.00,  stock: 15, emoji: '📗' },
-    { id: 7,  name: '资本论',       author: '卡尔·马克思',             category: '社科', price: 128.00, stock: 10, emoji: '📘' },
-    { id: 8,  name: '十万个为什么', author: '儿童百科编委会',             category: '儿童', price: 49.00,  stock: 35, emoji: '📖' },
-    { id: 9,  name: '百年孤独',     author: '加西亚·马尔克斯',           category: '小说', price: 42.00,  stock: 20, emoji: '📕' },
-    { id: 10, name: '时间简史',     author: '史蒂芬·霍金',               category: '科技', price: 55.00,  stock: 18, emoji: '📗' }
+    { id: 1,  name: '红楼梦',       author: '曹雪芹',               category: '文学', price: 59.00,  stock: 30, emoji: '📕', description: '《红楼梦》是中国古典四大名著之一，以贾宝玉、林黛玉、薛宝钗的爱情婚姻悲剧为主线，描绘了一个封建大家族的兴衰历程，被誉为中国封建社会的百科全书。', publisher: '人民文学出版社', year: 1996, isbn: '9787020002207', pages: 1606 },
+    { id: 2,  name: '三体',         author: '刘慈欣',               category: '科幻', price: 68.00,  stock: 25, emoji: '📗', description: '《三体》是刘慈欣创作的长篇科幻小说，讲述了地球人类文明和三体文明的信息交流、生死搏杀及两个文明在宇宙中的兴衰历程，是中国科幻文学的里程碑之作。', publisher: '重庆出版社', year: 2008, isbn: '9787536692930', pages: 302 },
+    { id: 3,  name: '人类简史',     author: '尤瓦尔·赫拉利',         category: '历史', price: 45.00,  stock: 20, emoji: '📘', description: '《人类简史》以大历史的视角回顾了智人的发展历程，从认知革命、农业革命到科学革命，探讨了历史与当代社会的核心问题，是一部宏大而深刻的人类文明史。', publisher: '中信出版社', year: 2014, isbn: '9787508647357', pages: 440 },
+    { id: 4,  name: '小王子',       author: '安托万·德·圣-埃克苏佩里', category: '儿童', price: 28.00,  stock: 50, emoji: '📖', description: '《小王子》是法国作家安托万·德·圣-埃克苏佩里创作的著名童话，讲述了一个来自外星球的小王子在宇宙旅行中的所见所闻，用简单而深刻的语言探讨了爱与责任的真谛。', publisher: '人民文学出版社', year: 2003, isbn: '9787020042494', pages: 97 },
+    { id: 5,  name: '活着',         author: '余华',                 category: '小说', price: 35.00,  stock: 40, emoji: '📕', description: '《活着》是余华的代表作，讲述了一个中国农民在历史变迁中历经磨难、亲人相继离世却依然坚强活着的故事，展现了生命的韧性与苦难中的人性光辉。', publisher: '作家出版社', year: 2012, isbn: '9787506365437', pages: 191 },
+    { id: 6,  name: 'Python编程',   author: '埃里克·马瑟斯',           category: '科技', price: 89.00,  stock: 15, emoji: '📗', description: '《Python编程：从入门到实践》是一本面向初学者的Python编程教程，通过项目驱动的学习方式，帮助读者快速掌握Python编程基础并构建实际应用。', publisher: '人民邮电出版社', year: 2016, isbn: '9787115428028', pages: 459 },
+    { id: 7,  name: '资本论',       author: '卡尔·马克思',             category: '社科', price: 128.00, stock: 10, emoji: '📘', description: '《资本论》是卡尔·马克思的政治经济学巨著，系统阐述了资本主义生产方式及其内在矛盾，分析了商品、货币、资本、剩余价值等核心概念，是马克思主义理论的基石。', publisher: '人民出版社', year: 2004, isbn: '9787010041155', pages: 1136 },
+    { id: 8,  name: '十万个为什么', author: '儿童百科编委会',             category: '儿童', price: 49.00,  stock: 35, emoji: '📖', description: '《十万个为什么》是中国经典的儿童科普读物，涵盖天文、地理、动物、植物、人体、科技等多个领域，以问答形式满足孩子对世界的好奇心和求知欲。', publisher: '少年儿童出版社', year: 2013, isbn: '9787532470716', pages: 200 },
+    { id: 9,  name: '百年孤独',     author: '加西亚·马尔克斯',           category: '小说', price: 42.00,  stock: 20, emoji: '📕', description: '《百年孤独》是加西亚·马尔克斯的代表作，魔幻现实主义文学的经典之作，讲述了布恩迪亚家族七代人的传奇故事，映射了拉丁美洲一个世纪的风云变幻。', publisher: '南海出版公司', year: 2011, isbn: '9787544253994', pages: 360 },
+    { id: 10, name: '时间简史',     author: '史蒂芬·霍金',               category: '科技', price: 55.00,  stock: 18, emoji: '📗', description: '《时间简史》是史蒂芬·霍金的经典科普著作，以通俗易懂的语言介绍了宇宙的起源、黑洞、时空旅行等深奥的物理学和宇宙学问题，启发了无数读者对宇宙的思考。', publisher: '湖南科学技术出版社', year: 2010, isbn: '9787535732369', pages: 212 }
   ];
 
   var LS_STOCK    = 'book_stock';
@@ -25,7 +25,11 @@
   var LS_ORDER_QUEUE    = 'book_order_queue';
   var LS_SPECIALS       = 'book_specials';
   var LS_STAFF_SESSION  = 'book_staff_session';
+  var LS_REVIEWS       = 'book_reviews';
+  var LS_PRODUCTS      = 'book_products';
+  var LS_ADMIN_SESSION = 'book_admin_session';
 
+  var productsData = [];
   var stockData = {};
   var cartData  = [];
   var currentCategory = 'all';
@@ -43,6 +47,9 @@
   var orderQueue = [];
   var specialsData = [];
   var bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('book_shop') : null;
+  var reviewsData = {};
+  var isAdmin = false;
+  var adminEditingProductId = null;
 
   function broadcast(msg) {
     if (bc) bc.postMessage(msg);
@@ -50,6 +57,7 @@
 
   // ===== 初始化 =====
   function init() {
+    loadProducts();
     loadStock();
     loadCart();
     authInit();
@@ -57,7 +65,9 @@
     loadOrders();
     loadOrderQueue();
     loadSpecials();
+    loadReviews();
     loadStaffSession();
+    loadAdminSession();
     renderProducts();
     renderSpecialsBanner();
     updateCartBadge();
@@ -74,6 +84,12 @@
       if (e.ctrlKey && (e.key === 'f' || e.key === 'F')) {
         e.preventDefault();
         toggleSearch();
+      }
+      if (e.key === 'Escape') {
+        var detailModal = document.getElementById('detailModal');
+        if (detailModal && detailModal.classList.contains('show')) {
+          closeDetail();
+        }
       }
     });
     // BroadcastChannel
@@ -97,8 +113,41 @@
           loadSpecials();
           renderSpecialsBanner();
         }
+        if (data.type === 'products_update') {
+          loadProducts();
+          renderProducts();
+        }
+        if (data.type === 'reviews_update') {
+          loadReviews();
+          renderProducts();
+        }
       };
     }
+    initAdminEntry();
+  }
+
+  // ===== 商品数据管理 =====
+  function loadProducts() {
+    var saved = localStorage.getItem(LS_PRODUCTS);
+    if (saved) {
+      try { productsData = JSON.parse(saved); } catch(e) { productsData = cloneProducts(PRODUCTS); }
+    } else {
+      productsData = cloneProducts(PRODUCTS);
+    }
+  }
+  function saveProducts() {
+    localStorage.setItem(LS_PRODUCTS, JSON.stringify(productsData));
+    broadcast({ type: 'products_update' });
+  }
+  function cloneProducts(arr) {
+    return arr.map(function(p) { return Object.assign({}, p); });
+  }
+  function getNextProductId() {
+    var max = 0;
+    for (var i = 0; i < productsData.length; i++) {
+      if (productsData[i].id > max) max = productsData[i].id;
+    }
+    return max + 1;
   }
 
   // ===== 库存 =====
@@ -107,7 +156,7 @@
     if (saved) {
       stockData = JSON.parse(saved);
     } else {
-      PRODUCTS.forEach(function(p) { stockData[p.id] = p.stock; });
+      productsData.forEach(function(p) { stockData[p.id] = p.stock; });
       saveStock();
     }
   }
@@ -141,7 +190,7 @@
     var grid = document.getElementById('productGrid');
     grid.innerHTML = '';
 
-    var filtered = PRODUCTS.filter(function(p) {
+    var filtered = productsData.filter(function(p) {
       // 分类筛选
       if (currentCategory === 'fav') {
         if (!isFavorite(p.id)) return false;
@@ -222,11 +271,13 @@
           '<div class="card-author">' + p.author + '</div>' +
           '<div class="card-price">' + (hasSpecial ? '<span class="price-original">¥' + p.price.toFixed(2) + '</span> ' : '') + '¥' + specialPrice.toFixed(2) + '</div>' +
           '<div class="card-stock ' + stockClass + '">' + stockText + '</div>' +
+          '<div class="card-rating"></div>' +
           '<button class="btn-add" onclick="window._book.addToCart(' + p.id + ')"' + (outOfStock ? ' disabled' : '') + '>' +
             (outOfStock ? '缺货' : '加入购物车') +
           '</button>' +
         '</div>';
       grid.appendChild(card);
+      renderCardRating(card, p.id);
     });
   }
 
@@ -303,11 +354,12 @@
     var idx = cartIndex(id);
     var current = idx >= 0 ? cartData[idx].quantity : 0;
     if (current >= stock) {
-      var p = PRODUCTS.find(function(x) { return x.id === id; });
+      var p = getProductById(id);
+      if (!p) return;
       showToast(p.name + ' 已达库存上限 (' + stock + '册)');
       return;
     }
-    var product = PRODUCTS.find(function(x) { return x.id === id; });
+    var product = getProductById(id);
     if (idx >= 0) {
       cartData[idx].quantity++;
     } else {
@@ -328,7 +380,8 @@
     var next = cartData[idx].quantity + delta;
     if (next <= 0) { removeFromCart(id); return; }
     if (next > stock) {
-      var p = PRODUCTS.find(function(x) { return x.id === id; });
+      var p = getProductById(id);
+      if (!p) return;
       showToast(p.name + ' 数量不能超过库存 (' + stock + '册)');
       return;
     }
@@ -345,6 +398,7 @@
     updateCartBadge();
     updateCartSidebar();
     renderProducts();
+    renderWishlist();
   }
 
   function clearCart() {
@@ -355,6 +409,7 @@
     updateCartBadge();
     updateCartSidebar();
     renderProducts();
+    renderWishlist();
     showToast('购物车已清空');
   }
 
@@ -403,6 +458,10 @@
   function toggleCart() {
     document.getElementById('cartSidebar').classList.toggle('open');
     document.getElementById('cartOverlay').classList.toggle('show');
+    var detailModal = document.getElementById('detailModal');
+    if (detailModal && detailModal.classList.contains('show')) {
+      closeDetail();
+    }
   }
 
   // ===== 商品定制（礼品包装、备注）=====
@@ -452,7 +511,7 @@
     }
 
     lastOrderSnapshot = cartData.map(function(item) {
-      return { name: item.name, author: item.author, emoji: item.emoji, qty: item.quantity, subtotal: item.price * item.quantity };
+      return { id: item.id, name: item.name, author: item.author, emoji: item.emoji, qty: item.quantity, subtotal: item.price * item.quantity };
     });
 
     var orderTotal = 0;
@@ -498,9 +557,11 @@
 
     document.getElementById('orderNo').textContent = '订单编号：' + orderNo;
     var itemsHtml = '';
+    var purchasedIds = [];
     for (var k = 0; k < lastOrderSnapshot.length; k++) {
       var snap = lastOrderSnapshot[k];
       itemsHtml += snap.emoji + ' ' + snap.name + ' × ' + snap.qty + ' = ¥' + snap.subtotal.toFixed(2) + '<br>';
+      purchasedIds.push(snap.id);
     }
     if (hasGiftWrap) {
       itemsHtml += '🎁 礼品包装 +¥' + GIFT_WRAP_FEE.toFixed(2) + '<br>';
@@ -509,6 +570,16 @@
       itemsHtml += '📝 备注：' + escapeHtml(orderNote) + '<br>';
     }
     document.getElementById('orderItems').innerHTML = itemsHtml;
+    // 添加"去评价"入口
+    var successActions = document.getElementById('successActions');
+    if (successActions) {
+      if (purchasedIds.length > 0 && isLoggedIn()) {
+        successActions.innerHTML = '<button class="oh-reorder" onclick="window._book.toggleReviewForm();window._book.openDetail(' + purchasedIds[0] + ');window._book.closeSuccess()" style="margin-top:10px">✍️ 去评价</button>';
+        successActions.style.display = '';
+      } else {
+        successActions.style.display = 'none';
+      }
+    }
     document.getElementById('successOverlay').classList.add('show');
     document.getElementById('successModal').classList.add('show');
   }
@@ -519,6 +590,8 @@
     document.getElementById('successOverlay').classList.remove('show');
     document.getElementById('successModal').classList.remove('show');
     lastOrderSnapshot = [];
+    var sa = document.getElementById('successActions');
+    if (sa) sa.style.display = 'none';
   }
 
   // ===== 表单验证 =====
@@ -579,6 +652,12 @@
     if (localStorage.getItem(LS_STAFF_SESSION)) {
       isStaff = true;
       loadOrderQueue();
+    }
+  }
+
+  function loadAdminSession() {
+    if (localStorage.getItem(LS_ADMIN_SESSION)) {
+      isAdmin = true;
     }
   }
 
@@ -678,6 +757,12 @@
     } else {
       html += '<button class="auth-btn auth-btn-staff-login" onclick="window._book.openStaffLogin()">🔧 员工</button>';
     }
+    if (isAdmin) {
+      html += '<button class="auth-btn auth-btn-admin" onclick="window._book.openAdmin()">⚙️ 管理后台</button>' +
+              '<button class="auth-btn" onclick="window._book.adminLogout()">退出管理</button>';
+    } else {
+      html += '<button class="auth-btn auth-btn-admin-login" onclick="window._book.openAdminLogin()">⚙️ 后台</button>';
+    }
     container.innerHTML = html;
   }
 
@@ -764,8 +849,12 @@
     return LS_PREFIX_FAV + (currentUser ? currentUser.username : 'guest');
   }
   function loadFavorites() {
-    var saved = localStorage.getItem(favKey());
-    favData = saved ? JSON.parse(saved) : {};
+    try {
+      var saved = localStorage.getItem(favKey());
+      favData = saved ? JSON.parse(saved) : {};
+    } catch(e) {
+      favData = {};
+    }
   }
   function saveFavorites() {
     localStorage.setItem(favKey(), JSON.stringify(favData));
@@ -792,13 +881,11 @@
   function filterFavorites() {
     if (!isLoggedIn()) { showToast('请先登录后使用收藏功能'); openLogin(); return; }
     currentCategory = 'fav';
-    document.querySelectorAll('.type-btn').forEach(function(btn) {
-      btn.classList.toggle('active', btn.dataset.cat === 'fav');
-    });
+    updateTypeButtons();
     renderProducts();
   }
   function getProductById(id) {
-    for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === id) return PRODUCTS[i]; }
+    for (var i = 0; i < productsData.length; i++) { if (productsData[i].id === id) return productsData[i]; }
     return null;
   }
 
@@ -826,6 +913,14 @@
   function closeOrderHistory() {
     document.getElementById('orderHistoryOverlay').classList.remove('show');
     document.getElementById('orderHistoryModal').classList.remove('show');
+  }
+  function clearOrders() {
+    if (ordersData.length === 0) return;
+    if (!confirm('确定要清空所有历史订单吗？此操作不可撤销。')) return;
+    ordersData = [];
+    saveOrders();
+    renderOrderHistory();
+    showToast('历史订单已清空');
   }
   function renderOrderHistory() {
     var container = document.getElementById('orderHistoryList');
@@ -883,7 +978,7 @@
     showToast('已添加到购物车');
   }
   function getBookByName(name) {
-    for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].name === name) return PRODUCTS[i]; }
+    for (var i = 0; i < productsData.length; i++) { if (productsData[i].name === name) return productsData[i]; }
     return null;
   }
 
@@ -1029,8 +1124,8 @@
     var container = document.getElementById('stockList');
     if (!container) return;
     container.innerHTML = '';
-    for (var i = 0; i < PRODUCTS.length; i++) {
-      var p = PRODUCTS[i];
+    for (var i = 0; i < productsData.length; i++) {
+      var p = productsData[i];
       var s = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
       var div = document.createElement('div');
       div.className = 'stock-item';
@@ -1144,10 +1239,10 @@
     var sel = document.getElementById('specialsProduct');
     if (sel) {
       sel.innerHTML = '<option value="">-- 选择商品 --</option>';
-      for (var j = 0; j < PRODUCTS.length; j++) {
+      for (var j = 0; j < productsData.length; j++) {
         var opt = document.createElement('option');
-        opt.value = PRODUCTS[j].id;
-        opt.textContent = PRODUCTS[j].name;
+        opt.value = productsData[j].id;
+        opt.textContent = productsData[j].name;
         sel.appendChild(opt);
       }
     }
@@ -1246,7 +1341,7 @@
           '<div class="cart-item-name">' + p.name + '</div>' +
           '<div class="cart-item-author">' + p.author + '</div>' +
           '<div class="cart-item-price">¥' + p.price.toFixed(2) + '</div>' +
-          (outOfStock ? '<div class="card-stock empty" style="margin:2px 0 0;padding:0">缺货</div>' : '') +
+          (outOfStock ? '<div class="card-stock empty">缺货</div>' : '') +
         '</div>' +
         '<div class="wishlist-item-actions">' +
           (inCart
@@ -1266,6 +1361,133 @@
       if (favData.hasOwnProperty(k) && favData[k]) count++;
     }
     badge.textContent = count;
+    badge.className = 'wishlist-badge' + (count === 0 ? ' zero' : '');
+  }
+
+  // ===== Reviews & Ratings =====
+  function loadReviews() {
+    var saved = localStorage.getItem(LS_REVIEWS);
+    reviewsData = saved ? JSON.parse(saved) : {};
+  }
+  function saveReviews() {
+    localStorage.setItem(LS_REVIEWS, JSON.stringify(reviewsData));
+  }
+  function getReviews(bookId) {
+    return reviewsData[bookId] || [];
+  }
+  function getAvgRating(bookId) {
+    var list = getReviews(bookId);
+    if (list.length === 0) return 0;
+    var sum = 0;
+    for (var i = 0; i < list.length; i++) sum += list[i].rating;
+    return sum / list.length;
+  }
+  function getRatingCount(bookId) {
+    return getReviews(bookId).length;
+  }
+  function getRatingDistribution(bookId) {
+    var list = getReviews(bookId);
+    var dist = {1:0,2:0,3:0,4:0,5:0};
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i].rating;
+      if (dist[r] !== undefined) dist[r]++;
+    }
+    return dist;
+  }
+  function renderStars(avg) {
+    var full = Math.round(avg);
+    var str = '';
+    for (var i = 0; i < 5; i++) str += i < full ? '★' : '☆';
+    return str;
+  }
+  function renderDistributionBars(dist) {
+    var total = 0;
+    for (var i = 1; i <= 5; i++) total += dist[i] || 0;
+    if (total === 0) return '';
+    var html = '';
+    for (var i = 5; i >= 1; i--) {
+      var count = dist[i] || 0;
+      var pct = total > 0 ? (count / total * 100).toFixed(0) : 0;
+      html += '<div class="star-bar"><span class="star-bar-label">' + i + '星</span><div class="star-bar-track"><div class="star-bar-fill" style="width:' + pct + '%"></div></div><span class="star-bar-count">' + count + '</span></div>';
+    }
+    return html;
+  }
+  function renderCardRating(cardEl, bookId) {
+    var ratingEl = cardEl.querySelector('.card-rating');
+    if (!ratingEl) return;
+    var cnt = getRatingCount(bookId);
+    if (cnt === 0) {
+      ratingEl.innerHTML = '<span class="rating-text no-rating">暂无评价</span>';
+    } else {
+      var avg = getAvgRating(bookId);
+      var full = Math.round(avg);
+      var stars = '';
+      for (var i = 0; i < 5; i++) stars += i < full ? '★' : '☆';
+      ratingEl.innerHTML = '<span class="stars-display">' + stars + '</span> <span class="rating-text">' + avg.toFixed(1) + ' (' + cnt + ')</span>';
+    }
+  }
+  var submitCooldown = false;
+  function submitReview(bookId) {
+    if (submitCooldown) { showToast('请勿频繁提交'); return; }
+    var form = document.getElementById('reviewForm');
+    if (!form) return;
+    var selector = form.querySelector('.star-selector');
+    var rating = parseInt(selector ? selector.dataset.rating : '0', 10);
+    if (!rating || rating < 1 || rating > 5) {
+      showToast('请选择星级');
+      return;
+    }
+    var textEl = document.getElementById('reviewText');
+    var text = textEl ? textEl.value.trim() : '';
+    if (text.length > 500) { showToast('评价内容不能超过500字'); return; }
+    submitCooldown = true;
+    setTimeout(function() { submitCooldown = false; }, 1000);
+    try {
+      var review = { id: 'rev_' + Date.now(), bookId: bookId, rating: rating, text: text, author: currentUser ? currentUser.username : '匿名用户', createdAt: new Date().toISOString() };
+      if (!reviewsData[bookId]) reviewsData[bookId] = [];
+      reviewsData[bookId].push(review);
+      saveReviews();
+      var stars = selector.querySelectorAll('.star');
+      for (var i = 0; i < stars.length; i++) { stars[i].classList.remove('active'); stars[i].textContent = '☆'; }
+      selector.dataset.rating = 0;
+      if (textEl) textEl.value = '';
+      var counter = document.getElementById('charCounter');
+      if (counter) counter.textContent = '0/500';
+      openDetail(bookId);
+      reviewFormVisible = true;
+      var fe = document.getElementById('reviewForm');
+      var be = document.getElementById('writeReviewBtn');
+      if (fe) fe.style.display = 'block';
+      if (be) be.textContent = '收起';
+      renderProducts();
+      showToast('评价提交成功！');
+    } catch(e) {
+      showToast('存储空间不足，无法保存评价');
+    }
+  }
+  var reviewFormVisible = false;
+  function toggleReviewForm() {
+    reviewFormVisible = !reviewFormVisible;
+    var form = document.getElementById('reviewForm');
+    var btn = document.getElementById('writeReviewBtn');
+    if (!form || !btn) return;
+    if (reviewFormVisible) { form.style.display = 'block'; btn.textContent = '收起'; }
+    else { form.style.display = 'none'; btn.textContent = '✏️ 写评价'; }
+  }
+  function setStarRating(el, val) {
+    var selector = el.closest('.star-selector');
+    if (!selector) return;
+    selector.dataset.rating = val;
+    var stars = selector.querySelectorAll('.star');
+    for (var i = 0; i < stars.length; i++) {
+      var active = i < val;
+      stars[i].classList.toggle('active', active);
+      stars[i].textContent = active ? '★' : '☆';
+    }
+  }
+  function updateCharCount(el) {
+    var counter = document.getElementById('charCounter');
+    if (counter) counter.textContent = el.value.length + '/500';
   }
 
   // ===== Book Detail Modal =====
@@ -1273,25 +1495,97 @@
     var p = getProductById(id);
     if (!p) return;
     var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
+    var outOfStock = stock <= 0;
     var specialPrice = getSpecialPrice(p.id, p.price);
     var hasSpecial = specialPrice !== p.price;
     var faved = isFavorite(p.id);
     var container = document.getElementById('detailContent');
     if (!container) return;
+    // Close cart sidebar if open
+    var cartSidebar = document.getElementById('cartSidebar');
+    if (cartSidebar && cartSidebar.classList.contains('open')) {
+      cartSidebar.classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('show');
+    }
+    reviewFormVisible = false;
+
+    var avg = getAvgRating(id);
+    var cnt = getRatingCount(id);
+    var dist = getRatingDistribution(id);
+    var reviews = getReviews(id);
+    var stockText = outOfStock ? '缺货' : stock + ' 册';
+    var stockClass = outOfStock ? 'empty' : (stock > 0 && stock <= 5 ? 'low' : '');
+
+    var ratingHtml = cnt > 0
+      ? '<div class="detail-rating"><span class="stars-display">' + renderStars(avg) + '</span> <span class="rating-text">' + avg.toFixed(1) + ' (' + cnt + '条评价)</span></div>'
+      : '<div class="detail-rating rating-none">暂无评价</div>';
+
+    var reviewsSummaryHtml = '';
+    if (cnt > 0) {
+      reviewsSummaryHtml = '<div class="reviews-summary">' +
+        '<div class="avg-rating"><span class="avg-number">' + avg.toFixed(1) + '</span><span class="avg-label">平均评分</span></div>' +
+        '<div class="star-bars">' + renderDistributionBars(dist) + '</div></div>';
+    }
+
+    var reviewsListHtml = '';
+    if (reviews.length > 0) {
+      for (var i = 0; i < reviews.length; i++) {
+        var r = reviews[i];
+        var d = new Date(r.createdAt);
+        var ds = d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate());
+        var rs = '';
+        for (var s = 0; s < 5; s++) rs += s < r.rating ? '★' : '☆';
+        reviewsListHtml += '<div class="review-item"><div class="review-header"><span class="review-stars">' + rs + '</span><span class="review-author">' + escapeHtml(r.author) + '</span><span class="review-date">' + ds + '</span></div>' + (r.text ? '<div class="review-text">' + escapeHtml(r.text) + '</div>' : '') + '</div>';
+      }
+    } else {
+      reviewsListHtml = '<div class="no-reviews">暂无评价，来写下第一条评价吧</div>';
+    }
+
     container.innerHTML =
-      '<div class="detail-header">' +
-        '<span class="detail-emoji">' + p.emoji + '</span>' +
-        '<h2>' + p.name + '</h2>' +
+      '<div class="detail-hero">' +
+        '<div class="detail-emoji">' + p.emoji + '</div>' +
+        '<div class="detail-name">' + p.name + '</div>' +
         '<div class="detail-author">' + p.author + '</div>' +
+        '<span class="detail-cat ' + p.category + '">' + p.category + '</span>' +
+        ratingHtml +
+        '<div class="detail-price">' + (hasSpecial ? '<span class="price-original">¥' + p.price.toFixed(2) + '</span> ' : '') + '¥' + specialPrice.toFixed(2) + '</div>' +
+        '<div class="detail-stock ' + stockClass + '">' + stockText + '</div>' +
       '</div>' +
       '<div class="detail-body">' +
-        '<p><strong>分类：</strong>' + p.category + '</p>' +
-        '<p><strong>价格：</strong>' + (hasSpecial ? '<span class="price-original">¥' + p.price.toFixed(2) + '</span> ' : '') + '<span class="detail-price">¥' + specialPrice.toFixed(2) + '</span></p>' +
-        '<p><strong>库存：</strong>' + (stock <= 0 ? '缺货' : stock + ' 册') + '</p>' +
+        '<div class="detail-desc">' + escapeHtml(p.description || '暂无简介') + '</div>' +
+        '<div class="detail-meta">' +
+          '<div class="detail-meta-item">出版社：<span>' + escapeHtml(p.publisher || '暂无') + '</span></div>' +
+          '<div class="detail-meta-item">出版年份：<span>' + (p.year || '暂无') + '</span></div>' +
+          '<div class="detail-meta-item">ISBN：<span>' + escapeHtml(p.isbn || '暂无') + '</span></div>' +
+          '<div class="detail-meta-item">页数：<span>' + (p.pages || '暂无') + '</span></div>' +
+        '</div>' +
+        '<div class="detail-actions">' +
+          '<button class="btn-add" onclick="window._book.addToCart(' + p.id + ');window._book.closeDetail()"' + (outOfStock ? ' disabled' : '') + '>' + (outOfStock ? '缺货' : '加入购物车') + '</button>' +
+          '<button class="detail-fav-btn' + (faved ? ' faved' : '') + '" onclick="window._book.toggleFavorite(' + p.id + ')">' + (faved ? '❤️ 已收藏' : '🤍 收藏') + '</button>' +
+        '</div>' +
       '</div>' +
-      '<div class="detail-actions">' +
-        '<button class="btn-submit" onclick="window._book.addToCart(' + p.id + ');window._book.closeDetail()" ' + (stock <= 0 ? 'disabled' : '') + '>' + (stock <= 0 ? '缺货' : '加入购物车') + '</button>' +
-        '<button class="oh-reorder" onclick="window._book.toggleFavorite(' + p.id + ');window._book.closeDetail()">' + (faved ? '取消收藏' : '❤️ 收藏') + '</button>' +
+      '<div class="detail-reviews-section">' +
+        '<div class="reviews-header">' +
+          '<span>评价 <span class="review-count">(' + cnt + '条)</span></span>' +
+          '<button class="write-review-btn" id="writeReviewBtn" onclick="window._book.toggleReviewForm()">✏️ 写评价</button>' +
+        '</div>' +
+        reviewsSummaryHtml +
+        '<div class="reviews-list">' + reviewsListHtml + '</div>' +
+        '<div class="review-form" id="reviewForm" style="display:none">' +
+          '<div class="star-selector" data-rating="0">' +
+            '<span class="star" data-value="5" onclick="window._book.setStarRating(this,5)">☆</span>' +
+            '<span class="star" data-value="4" onclick="window._book.setStarRating(this,4)">☆</span>' +
+            '<span class="star" data-value="3" onclick="window._book.setStarRating(this,3)">☆</span>' +
+            '<span class="star" data-value="2" onclick="window._book.setStarRating(this,2)">☆</span>' +
+            '<span class="star" data-value="1" onclick="window._book.setStarRating(this,1)">☆</span>' +
+          '</div>' +
+          '<textarea id="reviewText" placeholder="写下你的评价...（选填，最多500字）" maxlength="500" oninput="window._book.updateCharCount(this)"></textarea>' +
+          '<div class="review-form-footer">' +
+            '<span class="char-counter" id="charCounter">0/500</span>' +
+            '<button class="review-submit-btn" onclick="window._book.submitReview(' + id + ')">提交评价</button>' +
+            '<button class="dismiss-review-form" onclick="window._book.toggleReviewForm()">收起</button>' +
+          '</div>' +
+        '</div>' +
       '</div>';
     document.getElementById('detailOverlay').classList.add('show');
     document.getElementById('detailModal').classList.add('show');
@@ -1299,6 +1593,241 @@
   function closeDetail() {
     document.getElementById('detailOverlay').classList.remove('show');
     document.getElementById('detailModal').classList.remove('show');
+  }
+
+  // ===== Admin System =====
+  function adminLogin(password) {
+    if (password === 'admin123') {
+      isAdmin = true;
+      localStorage.setItem(LS_ADMIN_SESSION, '1');
+      updateAuthUI();
+      showToast('✅ 管理员模式已开启');
+      return true;
+    }
+    showToast('❌ 管理员密码错误');
+    return false;
+  }
+
+  function adminLogout() {
+    isAdmin = false;
+    localStorage.removeItem(LS_ADMIN_SESSION);
+    updateAuthUI();
+    closeAdmin();
+    showToast('已退出管理员模式');
+  }
+
+  function openAdminLogin() {
+    document.getElementById('adminLoginOverlay').classList.add('show');
+    document.getElementById('adminLoginModal').classList.add('show');
+    setTimeout(function() {
+      var inp = document.getElementById('adminPassword');
+      if (inp) inp.focus();
+    }, 100);
+  }
+
+  function closeAdminLogin() {
+    document.getElementById('adminLoginOverlay').classList.remove('show');
+    document.getElementById('adminLoginModal').classList.remove('show');
+    var inp = document.getElementById('adminPassword');
+    if (inp) inp.value = '';
+  }
+
+  function submitAdminLogin(e) {
+    e.preventDefault();
+    var pwd = document.getElementById('adminPassword').value;
+    if (adminLogin(pwd)) closeAdminLogin();
+  }
+
+  function openAdmin() {
+    loadProducts();
+    renderAdminTable();
+    document.getElementById('adminOverlay').classList.add('show');
+    document.getElementById('adminModal').classList.add('show');
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminOverlay').classList.remove('show');
+    document.getElementById('adminModal').classList.remove('show');
+  }
+
+  function renderAdminTable() {
+    var tbody = document.getElementById('adminTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    for (var i = 0; i < productsData.length; i++) {
+      var p = productsData[i];
+      var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + p.id + '</td>' +
+        '<td class="admin-emoji">' + p.emoji + '</td>' +
+        '<td>' + escapeHtml(p.name) + '</td>' +
+        '<td>' + escapeHtml(p.author) + '</td>' +
+        '<td>' + p.category + '</td>' +
+        '<td>¥' + (p.price ? p.price.toFixed(2) : '0.00') + '</td>' +
+        '<td>' +
+          '<input type="number" class="admin-stock-input" value="' + stock + '" min="0" ' +
+          'onchange="window._book.adminSetStock(' + p.id + ', this.value)" ' +
+          'onclick="event.stopPropagation()" />' +
+        '</td>' +
+        '<td class="admin-actions">' +
+          '<button class="admin-edit-btn" onclick="window._book.openEditProduct(' + p.id + ')">✏️</button>' +
+          '<button class="admin-delete-btn" onclick="window._book.adminDeleteProduct(' + p.id + ')">🗑️</button>' +
+        '</td>';
+      tbody.appendChild(tr);
+    }
+  }
+
+  function adminSetStock(id, value) {
+    var val = parseInt(value, 10);
+    if (isNaN(val) || val < 0) { showToast('请输入有效的库存数量'); return; }
+    stockData[id] = val;
+    saveStock();
+    renderProducts();
+    broadcast({ type: 'stock_update' });
+    showToast('库存已更新');
+  }
+
+  function openAddProduct() {
+    adminEditingProductId = null;
+    document.getElementById('productFormTitle').textContent = '📖 添加书籍';
+    document.getElementById('productFormSubmit').textContent = '添加';
+    document.getElementById('productForm').reset();
+    document.getElementById('productFormId').value = '';
+    document.getElementById('productFormOverlay').classList.add('show');
+    document.getElementById('productFormModal').classList.add('show');
+  }
+
+  function openEditProduct(id) {
+    var p = getProductById(id);
+    if (!p) return;
+    adminEditingProductId = id;
+    document.getElementById('productFormTitle').textContent = '✏️ 编辑书籍';
+    document.getElementById('productFormSubmit').textContent = '保存修改';
+    document.getElementById('productFormId').value = id;
+    document.getElementById('pfName').value = p.name || '';
+    document.getElementById('pfAuthor').value = p.author || '';
+    document.getElementById('pfCategory').value = p.category || '文学';
+    document.getElementById('pfPrice').value = p.price || '';
+    document.getElementById('pfStock').value = (stockData[p.id] !== undefined ? stockData[p.id] : p.stock) || 0;
+    document.getElementById('pfEmoji').value = p.emoji || '';
+    document.getElementById('pfDescription').value = p.description || '';
+    document.getElementById('pfPublisher').value = p.publisher || '';
+    document.getElementById('pfPublishYear').value = p.year || '';
+    document.getElementById('pfIsbn').value = p.isbn || '';
+    document.getElementById('pfPages').value = p.pages || '';
+    document.getElementById('productFormOverlay').classList.add('show');
+    document.getElementById('productFormModal').classList.add('show');
+  }
+
+  function closeProductForm() {
+    document.getElementById('productFormOverlay').classList.remove('show');
+    document.getElementById('productFormModal').classList.remove('show');
+    adminEditingProductId = null;
+  }
+
+  function submitProductForm(e) {
+    e.preventDefault();
+    var id = document.getElementById('productFormId').value;
+    var name = document.getElementById('pfName').value.trim();
+    var author = document.getElementById('pfAuthor').value.trim();
+    var category = document.getElementById('pfCategory').value;
+    var price = parseFloat(document.getElementById('pfPrice').value);
+    var stockVal = parseInt(document.getElementById('pfStock').value, 10);
+    var emoji = document.getElementById('pfEmoji').value.trim() || '📕';
+    var description = document.getElementById('pfDescription').value.trim();
+    var publisher = document.getElementById('pfPublisher').value.trim();
+    var publishYear = parseInt(document.getElementById('pfPublishYear').value, 10);
+    var isbn = document.getElementById('pfIsbn').value.trim();
+    var pages = parseInt(document.getElementById('pfPages').value, 10);
+
+    if (!name) { showToast('请输入书名'); return; }
+    if (!author) { showToast('请输入作者'); return; }
+    if (isNaN(price) || price <= 0) { showToast('请输入有效的价格'); return; }
+    if (isNaN(stockVal) || stockVal < 0) { showToast('请输入有效的库存数量'); return; }
+
+    if (id) {
+      id = parseInt(id, 10);
+      var existing = getProductById(id);
+      if (existing) {
+        existing.name = name;
+        existing.author = author;
+        existing.category = category;
+        existing.price = price;
+        existing.emoji = emoji;
+        existing.description = description;
+        existing.publisher = publisher;
+        existing.year = publishYear;
+        existing.isbn = isbn;
+        existing.pages = pages;
+        stockData[id] = stockVal;
+        saveStock();
+      }
+    } else {
+      id = getNextProductId();
+      var newProduct = {
+        id: id,
+        name: name,
+        author: author,
+        category: category,
+        price: price,
+        stock: stockVal,
+        emoji: emoji,
+        description: description,
+        publisher: publisher,
+        year: publishYear,
+        isbn: isbn,
+        pages: pages
+      };
+      productsData.push(newProduct);
+      stockData[id] = stockVal;
+      saveStock();
+    }
+
+    saveProducts();
+    closeProductForm();
+    renderAdminTable();
+    renderProducts();
+    updateAuthUI();
+    renderSpecialsBanner();
+    showToast(id ? '书籍信息已更新 ✓' : '书籍已添加 ✓');
+  }
+
+  function adminDeleteProduct(id) {
+    var p = getProductById(id);
+    if (!p) return;
+    if (!confirm('确定要删除《' + p.name + '》吗？此操作不可撤销。')) return;
+    productsData = productsData.filter(function(item) { return item.id !== id; });
+    delete stockData[id];
+    saveProducts();
+    saveStock();
+    renderAdminTable();
+    renderProducts();
+    updateAuthUI();
+    renderSpecialsBanner();
+    showToast('已删除《' + p.name + '》');
+  }
+
+  // ===== Logo triple-click for admin entry =====
+  function initAdminEntry() {
+    var logo = document.querySelector('.logo');
+    if (!logo) return;
+    var clickCount = 0;
+    var clickTimer = null;
+    logo.addEventListener('click', function(e) {
+      clickCount++;
+      if (clickTimer) clearTimeout(clickTimer);
+      if (clickCount >= 3) {
+        clickCount = 0;
+        if (isAdmin) {
+          openAdmin();
+        } else {
+          openAdminLogin();
+        }
+        return;
+      }
+      clickTimer = setTimeout(function() { clickCount = 0; }, 600);
+    });
   }
 
   // ===== 暴露关键函数到 window =====
@@ -1338,6 +1867,7 @@
     // Order History
     openOrderHistory: openOrderHistory,
     closeOrderHistory: closeOrderHistory,
+    clearOrders: clearOrders,
     reorder: reorder,
     // Staff
     openStaffLogin: openStaffLogin,
@@ -1366,6 +1896,25 @@
     // Detail Modal
     openDetail: openDetail,
     closeDetail: closeDetail,
+    // Reviews
+    submitReview: submitReview,
+    toggleReviewForm: toggleReviewForm,
+    setStarRating: setStarRating,
+    updateCharCount: updateCharCount,
+    // Admin
+    adminLogin: adminLogin,
+    adminLogout: adminLogout,
+    openAdminLogin: openAdminLogin,
+    closeAdminLogin: closeAdminLogin,
+    submitAdminLogin: submitAdminLogin,
+    openAdmin: openAdmin,
+    closeAdmin: closeAdmin,
+    openAddProduct: openAddProduct,
+    openEditProduct: openEditProduct,
+    closeProductForm: closeProductForm,
+    submitProductForm: submitProductForm,
+    adminDeleteProduct: adminDeleteProduct,
+    adminSetStock: adminSetStock,
     // Customization
     toggleGiftWrap: toggleGiftWrap
   };
