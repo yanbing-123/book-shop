@@ -1439,11 +1439,11 @@
     }
     var textEl = document.getElementById('reviewText');
     var text = textEl ? textEl.value.trim() : '';
-    if (text.length > 500) { showToast('评价内容不能超过500字'); return; }
+    if (text.length > 200) { showToast('评价内容不能超过200字'); return; }
     submitCooldown = true;
     setTimeout(function() { submitCooldown = false; }, 1000);
     try {
-      var review = { id: 'rev_' + Date.now(), bookId: bookId, rating: rating, text: text, author: currentUser ? currentUser.username : '匿名用户', createdAt: new Date().toISOString() };
+      var review = { id: 'rev_' + Date.now(), bookId: bookId, rating: rating, text: text, author: '书虫用户', createdAt: new Date().toISOString() };
       if (!reviewsData[bookId]) reviewsData[bookId] = [];
       reviewsData[bookId].push(review);
       saveReviews();
@@ -1452,7 +1452,7 @@
       selector.dataset.rating = 0;
       if (textEl) textEl.value = '';
       var counter = document.getElementById('charCounter');
-      if (counter) counter.textContent = '0/500';
+      if (counter) counter.textContent = '0/200';
       openDetail(bookId);
       reviewFormVisible = true;
       var fe = document.getElementById('reviewForm');
@@ -1487,7 +1487,7 @@
   }
   function updateCharCount(el) {
     var counter = document.getElementById('charCounter');
-    if (counter) counter.textContent = el.value.length + '/500';
+    if (counter) counter.textContent = el.value.length + '/200';
   }
 
   // ===== Book Detail Modal =====
@@ -1579,9 +1579,9 @@
             '<span class="star" data-value="2" onclick="window._book.setStarRating(this,2)">☆</span>' +
             '<span class="star" data-value="1" onclick="window._book.setStarRating(this,1)">☆</span>' +
           '</div>' +
-          '<textarea id="reviewText" placeholder="写下你的评价...（选填，最多500字）" maxlength="500" oninput="window._book.updateCharCount(this)"></textarea>' +
+          '<textarea id="reviewText" placeholder="写下你的评价...（选填，最多200字）" maxlength="200" oninput="window._book.updateCharCount(this)"></textarea>' +
           '<div class="review-form-footer">' +
-            '<span class="char-counter" id="charCounter">0/500</span>' +
+            '<span class="char-counter" id="charCounter">0/200</span>' +
             '<button class="review-submit-btn" onclick="window._book.submitReview(' + id + ')">提交评价</button>' +
             '<button class="dismiss-review-form" onclick="window._book.toggleReviewForm()">收起</button>' +
           '</div>' +
