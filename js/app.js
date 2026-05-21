@@ -574,7 +574,7 @@
     var successActions = document.getElementById('successActions');
     if (successActions) {
       if (purchasedIds.length > 0 && isLoggedIn()) {
-        successActions.innerHTML = '<button class="oh-reorder" onclick="window._book.toggleReviewForm();window._book.openDetail(' + purchasedIds[0] + ');window._book.closeSuccess()" style="margin-top:10px">✍️ 去评价</button>';
+        successActions.innerHTML = '<button class="oh-reorder" onclick="window._book.openDetail(' + purchasedIds[0] + ',true);window._book.closeSuccess()" style="margin-top:10px">✍️ 去评价</button>';
         successActions.style.display = '';
       } else {
         successActions.style.display = 'none';
@@ -1366,11 +1366,16 @@
 
   // ===== Reviews & Ratings =====
   function loadReviews() {
-    var saved = localStorage.getItem(LS_REVIEWS);
-    reviewsData = saved ? JSON.parse(saved) : {};
+    try {
+      var saved = localStorage.getItem(LS_REVIEWS);
+      reviewsData = saved ? JSON.parse(saved) : {};
+    } catch(e) {
+      reviewsData = {};
+    }
   }
   function saveReviews() {
     localStorage.setItem(LS_REVIEWS, JSON.stringify(reviewsData));
+    broadcast({ type: 'reviews_update' });
   }
   function getReviews(bookId) {
     return reviewsData[bookId] || [];
@@ -1480,7 +1485,7 @@
     selector.dataset.rating = val;
     var stars = selector.querySelectorAll('.star');
     for (var i = 0; i < stars.length; i++) {
-      var active = i < val;
+      var active = i >= stars.length - val;
       stars[i].classList.toggle('active', active);
       stars[i].textContent = active ? '★' : '☆';
     }
@@ -1491,7 +1496,7 @@
   }
 
   // ===== Book Detail Modal =====
-  function openDetail(id) {
+  function openDetail(id, autoShowReview) {
     var p = getProductById(id);
     if (!p) return;
     var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
@@ -1529,7 +1534,7 @@
 
     var reviewsListHtml = '';
     if (reviews.length > 0) {
-      for (var i = 0; i < reviews.length; i++) {
+      for (var i = reviews.length - 1; i >= 0; i--) {
         var r = reviews[i];
         var d = new Date(r.createdAt);
         var ds = d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate());
@@ -1589,6 +1594,9 @@
       '</div>';
     document.getElementById('detailOverlay').classList.add('show');
     document.getElementById('detailModal').classList.add('show');
+    if (autoShowReview) {
+      toggleReviewForm();
+    }
   }
   function closeDetail() {
     document.getElementById('detailOverlay').classList.remove('show');
@@ -1799,8 +1807,10 @@
     if (!confirm('确定要删除《' + p.name + '》吗？此操作不可撤销。')) return;
     productsData = productsData.filter(function(item) { return item.id !== id; });
     delete stockData[id];
+    delete reviewsData[id];
     saveProducts();
     saveStock();
+    saveReviews();
     renderAdminTable();
     renderProducts();
     updateAuthUI();
