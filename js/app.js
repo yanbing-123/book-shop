@@ -28,6 +28,7 @@
   var LS_REVIEWS       = 'book_reviews';
   var LS_PRODUCTS      = 'book_products';
   var LS_ADMIN_SESSION = 'book_admin_session';
+  var LS_RECENTLY_VIEWED = 'book_recently_viewed';
 
   var productsData = [];
   var stockData = {};
@@ -49,6 +50,7 @@
   var bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('book_shop') : null;
   var reviewsData = {};
   var isAdmin = false;
+  var recentlyViewedIds = [];
   var adminEditingProductId = null;
 
   function broadcast(msg) {
@@ -66,6 +68,8 @@
     loadOrderQueue();
     loadSpecials();
     loadReviews();
+    loadRecentlyViewed();
+    renderRecentlyViewed();
     loadStaffSession();
     loadAdminSession();
     renderProducts();
@@ -1495,10 +1499,67 @@
     if (counter) counter.textContent = el.value.length + '/200';
   }
 
+  // ===== Recently Viewed =====
+  function loadRecentlyViewed() {
+    var saved = localStorage.getItem(LS_RECENTLY_VIEWED);
+    recentlyViewedIds = saved ? JSON.parse(saved) : [];
+  }
+  function saveRecentlyViewed() {
+    localStorage.setItem(LS_RECENTLY_VIEWED, JSON.stringify(recentlyViewedIds));
+  }
+  function recordRecentlyViewed(id) {
+    var idx = recentlyViewedIds.indexOf(id);
+    if (idx >= 0) {
+      recentlyViewedIds.splice(idx, 1);
+    }
+    recentlyViewedIds.unshift(id);
+    if (recentlyViewedIds.length > 10) {
+      recentlyViewedIds = recentlyViewedIds.slice(0, 10);
+    }
+    saveRecentlyViewed();
+    renderRecentlyViewed();
+  }
+  function renderRecentlyViewed() {
+    var container = document.getElementById('recentlyViewed');
+    var track = document.getElementById('rvTrack');
+    if (!container || !track) return;
+    if (recentlyViewedIds.length === 0) {
+      container.classList.remove('has-items');
+      return;
+    }
+    container.classList.add('has-items');
+    track.innerHTML = '';
+    for (var i = 0; i < recentlyViewedIds.length; i++) {
+      var p = getProductById(recentlyViewedIds[i]);
+      if (!p) continue;
+      var specialPrice = getSpecialPrice(p.id, p.price);
+      var card = document.createElement('div');
+      card.className = 'rv-card';
+      card.onclick = function(bookId) {
+        return function() { openDetail(bookId); };
+      }(p.id);
+      card.innerHTML =
+        '<span class="rv-card-emoji">' + p.emoji + '</span>' +
+        '<div class="rv-card-name">' + p.name + '</div>' +
+        '<div class="rv-card-author">' + p.author + '</div>' +
+        '<div class="rv-card-price">¥' + specialPrice.toFixed(2) + '</div>';
+      track.appendChild(card);
+    }
+  }
+  function clearRecentlyViewed() {
+    if (recentlyViewedIds.length === 0) return;
+    if (!confirm('确定要清空最近浏览记录吗？')) return;
+    recentlyViewedIds = [];
+    saveRecentlyViewed();
+    renderRecentlyViewed();
+    showToast('最近浏览记录已清空');
+  }
+
   // ===== Book Detail Modal =====
   function openDetail(id, autoShowReview) {
     var p = getProductById(id);
     if (!p) return;
+    recordRecentlyViewed(id);
     var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
     var outOfStock = stock <= 0;
     var specialPrice = getSpecialPrice(p.id, p.price);
@@ -1925,6 +1986,8 @@
     submitProductForm: submitProductForm,
     adminDeleteProduct: adminDeleteProduct,
     adminSetStock: adminSetStock,
+    // Recently Viewed
+    clearRecentlyViewed: clearRecentlyViewed,
     // Customization
     toggleGiftWrap: toggleGiftWrap
   };

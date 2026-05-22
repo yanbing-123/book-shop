@@ -70,6 +70,14 @@
 
   <!-- 商品列表 -->
   <main class="container">
+    <!-- 最近浏览 -->
+    <div class="recently-viewed" id="recentlyViewed">
+      <div class="rv-header">
+        <h3 class="rv-title">🕐 最近浏览</h3>
+        <button class="rv-clear-btn" onclick="window._book.clearRecentlyViewed()">清空</button>
+      </div>
+      <div class="rv-track" id="rvTrack"></div>
+    </div>
     <div class="product-grid" id="productGrid"></div>
   </main>
 
