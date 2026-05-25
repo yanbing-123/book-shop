@@ -28,6 +28,7 @@
   var LS_REVIEWS       = 'book_reviews';
   var LS_PRODUCTS      = 'book_products';
   var LS_ADMIN_SESSION = 'book_admin_session';
+  var LS_RECENT = 'book_recent';
 
   var productsData = [];
   var stockData = {};
@@ -50,6 +51,7 @@
   var reviewsData = {};
   var isAdmin = false;
   var adminEditingProductId = null;
+  var recentData = [];
 
   function broadcast(msg) {
     if (bc) bc.postMessage(msg);
@@ -68,6 +70,7 @@
     loadReviews();
     loadStaffSession();
     loadAdminSession();
+    loadRecent();
     renderProducts();
     renderSpecialsBanner();
     updateCartBadge();
@@ -194,6 +197,9 @@
       // 分类筛选
       if (currentCategory === 'fav') {
         if (!isFavorite(p.id)) return false;
+      } else if (currentCategory === 'recent') {
+        var recentIds = getRecentIds();
+        if (recentIds.indexOf(p.id) === -1) return false;
       } else if (currentCategory !== 'all' && p.category !== currentCategory) {
         return false;
       }
@@ -233,7 +239,11 @@
     if (filtered.length === 0) {
       var emptyEl = document.createElement('div');
       emptyEl.className = 'empty-state';
-      emptyEl.innerHTML = '<div class="empty-state-icon">🔍</div><div class="empty-state-text">没有找到符合条件的书籍，试试调整搜索条件吧</div>';
+      if (currentCategory === 'recent') {
+        emptyEl.innerHTML = '<div class="empty-state-icon">🕐</div><div class="empty-state-text">还没有浏览过书籍，快去逛逛吧~</div>';
+      } else {
+        emptyEl.innerHTML = '<div class="empty-state-icon">🔍</div><div class="empty-state-text">没有找到符合条件的书籍，试试调整搜索条件吧</div>';
+      }
       grid.appendChild(emptyEl);
       return;
     }
@@ -285,6 +295,10 @@
   function filterByCategory(cat) {
     if (cat === 'fav') {
       filterFavorites();
+      return;
+    }
+    if (cat === 'recent') {
+      filterRecent();
       return;
     }
     currentCategory = cat;
@@ -1364,6 +1378,46 @@
     badge.className = 'wishlist-badge' + (count === 0 ? ' zero' : '');
   }
 
+  // ===== Recently Viewed =====
+  function loadRecent() {
+    try {
+      var saved = localStorage.getItem(LS_RECENT);
+      recentData = saved ? JSON.parse(saved) : [];
+    } catch(e) {
+      recentData = [];
+    }
+  }
+  function saveRecent() {
+    localStorage.setItem(LS_RECENT, JSON.stringify(recentData));
+  }
+  function trackRecentView(id) {
+    // Remove if already exists (to move it to front)
+    recentData = recentData.filter(function(item) { return item.id !== id; });
+    // Add to front
+    recentData.unshift({ id: id, viewedAt: Date.now() });
+    // Keep only the last 10
+    if (recentData.length > 10) {
+      recentData = recentData.slice(0, 10);
+    }
+    saveRecent();
+  }
+  function getRecentIds() {
+    return recentData.map(function(item) { return item.id; });
+  }
+  function filterRecent() {
+    var ids = getRecentIds();
+    if (ids.length === 0) {
+      currentCategory = 'recent';
+      updateTypeButtons();
+      renderProducts();
+      showToast('还没有浏览过书籍哦 📭');
+      return;
+    }
+    currentCategory = 'recent';
+    updateTypeButtons();
+    renderProducts();
+  }
+
   // ===== Reviews & Ratings =====
   function loadReviews() {
     try {
@@ -1497,6 +1551,7 @@
 
   // ===== Book Detail Modal =====
   function openDetail(id, autoShowReview) {
+    trackRecentView(id);
     var p = getProductById(id);
     if (!p) return;
     var stock = stockData[p.id] !== undefined ? stockData[p.id] : p.stock;
@@ -1903,6 +1958,9 @@
     // Wishlist Sidebar
     toggleWishlist: toggleWishlist,
     updateWishlistBadge: updateWishlistBadge,
+    // Recently Viewed
+    filterRecent: filterRecent,
+    trackRecentView: trackRecentView,
     // Detail Modal
     openDetail: openDetail,
     closeDetail: closeDetail,
